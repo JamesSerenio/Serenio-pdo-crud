@@ -140,9 +140,13 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                     // Retrieve individual field value
-                    $product_id = $row["name"];
-                    $address = $row["address"];
-                    $salary = $row["salary"];
+                    $product_id = $row["id"];
+                    $product_thumbnail_link = $row["link"];
+                    $product_name = $row["name"];
+                    $product_description = $row["description"];
+                    $product_retail_price = $row["price"];
+                    $product_date_added = $row["date_added"];
+                    $product_updated_date = $row["salary"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
