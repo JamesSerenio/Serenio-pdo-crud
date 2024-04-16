@@ -3,33 +3,13 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$id = $link = $name = $description = $price = $added = $updated = "";
-$id_err = $link_err = $name_err = $description_err = $price_err = $added_err = $updated_err = "";
+$name = $address = $salary = "";
+$name_err = $address_err = $salary_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["id"]) && !empty($_POST["id"])){
     // Get hidden input value
     $id = $_POST["id"];
-    
-    // Validate id
-    $input_id = trim($_POST["id"]);
-    if(empty($input_id)){
-        $id_err = "Please enter the id";     
-    } elseif(!ctype_digit($input_id)){
-        $id_err = "Please enter a positive integer value.";
-    } else{
-        $id = $input_id;
-    }
-    
-    // Validate address link
-    $input_link = trim($_POST["link"]);
-    if(empty($input_link)){
-        $link_err = "Please enter a link.";
-    } elseif(!filter_var($input_link, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid link.";
-    } else{
-        $name = $input_link;
-    }
     
     // Validate name
     $input_name = trim($_POST["name"]);
@@ -41,68 +21,41 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $name = $input_name;
     }
     
-    // Validate description
-    $input_description = trim($_POST["description"]);
-    if(empty($input_description)){
-        $description_err = "Please enter a description.";
-    } elseif(!filter_var($input_description, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $description_err = "Please enter a valid description.";
+    // Validate address address
+    $input_address = trim($_POST["address"]);
+    if(empty($input_address)){
+        $address_err = "Please enter an address.";     
     } else{
-        $description = $input_description;
+        $address = $input_address;
     }
-
-    // Validate price
-    $input_price = trim($_POST["price"]);
-    if(empty($input_price)){
-        $price_err = "Please enter a price.";
-    } elseif(!filter_var($input_price, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $price_err = "Please enter a valid price.";
+    
+    // Validate salary
+    $input_salary = trim($_POST["salary"]);
+    if(empty($input_salary)){
+        $salary_err = "Please enter the salary amount.";     
+    } elseif(!ctype_digit($input_salary)){
+        $salary_err = "Please enter a positive integer value.";
     } else{
-        $price = $input_price;
+        $salary = $input_salary;
     }
-
-    // Validate date added
-    $input_added = trim($_POST["added"]);
-    if(empty($input_added)){
-        $added_err = "Please enter a date-added.";     
-    } else{
-        $added = $input_added;
-    }
-
-    // Validate updated date
-    $input_updated = trim($_POST["updated"]);
-    if(empty($input_updated)){
-        $added_err = "Please enter a updated date.";     
-    } else{
-        $updated = $input_updated;
-    }
-
+    
     // Check input errors before inserting in database
-    if(empty($id_err) && empty($link_err) && empty($name_err) && empty($description_err) && empty($price_err) && empty($added_err)&& empty($updated_err)){
+    if(empty($name_err) && empty($address_err) && empty($salary_err)){
         // Prepare an update statement
-        $sql = "INSERT INTO products (id, link, name, description, price, added, updated  ) VALUES (:id, :link, :name, :description, :price, :added, :updated)";
- 
-        if($stmt = $pdo->prepare($sql)){
+        $sql = "UPDATE employees SET name=?, address=?, salary=? WHERE id=?";
+         
+        if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":id", $id);
-            $stmt->bindParam(":link", $link);
-            $stmt->bindParam(":name", $name);
-            $stmt->bindParam(":description", $description);
-            $stmt->bindParam(":price", $price);
-            $stmt->bindParam(":added", $added);
-            $stmt->bindParam(":updatedd", $updated);
+            mysqli_stmt_bind_param($stmt, "sssi", $param_name, $param_address, $param_salary, $param_id);
             
             // Set parameters
-            $product_id = $id;
-            $product_thumbnail_link = $link;
-            $product_name = $name;
-            $product_description = $description;
-            $product_retail_price = $price;
-            $product_date_added = $added;
-            $product_updated_date = $updated;
+            $param_name = $name;
+            $param_address = $address;
+            $param_salary = $salary;
+            $param_id = $id;
             
             // Attempt to execute the prepared statement
-            if($stmt->execute()){
+            if(mysqli_stmt_execute($stmt)){
                 // Records updated successfully. Redirect to landing page
                 header("location: index.php");
                 exit();
@@ -112,11 +65,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         }
          
         // Close statement
-        unset($stmt);
+        mysqli_stmt_close($stmt);
     }
     
     // Close connection
-    unset($pdo);
+    mysqli_close($link);
 } else{
     // Check existence of id parameter before processing further
     if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
@@ -124,29 +77,27 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $id =  trim($_GET["id"]);
         
         // Prepare a select statement
-        $sql = "SELECT * FROM employees WHERE id = :id";
-        if($stmt = $pdo->prepare($sql)){
+        $sql = "SELECT * FROM products WHERE id = ?";
+        if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":id", $param_id);
+            mysqli_stmt_bind_param($stmt, "i", $param_id);
             
             // Set parameters
             $param_id = $id;
             
             // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
+            if(mysqli_stmt_execute($stmt)){
+                $result = mysqli_stmt_get_result($stmt);
+    
+                if(mysqli_num_rows($result) == 1){
                     /* Fetch result row as an associative array. Since the result set
                     contains only one row, we don't need to use while loop */
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                
+                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                    
                     // Retrieve individual field value
-                    $product_id = $row["id"];
-                    $product_thumbnail_link = $row["link"];
-                    $product_name = $row["name"];
-                    $product_description = $row["description"];
-                    $product_retail_price = $row["price"];
-                    $product_date_added = $row["date_added"];
-                    $product_updated_date = $row["salary"];
+                    $name = $row["name"];
+                    $address = $row["address"];
+                    $salary = $row["salary"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -159,10 +110,10 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         }
         
         // Close statement
-        unset($stmt);
+        mysqli_stmt_close($stmt);
         
         // Close connection
-        unset($pdo);
+        mysqli_close($link);
     }  else{
         // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");

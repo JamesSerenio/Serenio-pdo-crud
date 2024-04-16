@@ -1,15 +1,11 @@
 <?php
-// Include config file
 require_once "config.php";
-
-// Define variables and initialize with empty values
 $id = $link = $name = $description = $price = $added = $updated = "";
 $id_err = $link_err = $name_err = $description_err = $price_err = $added_err = $updated_err = "";
 
-// Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate id
     if (isset($_POST["id"])) {
+        
         $input_id = trim($_POST["id"]);
         if (empty($input_id)) {
             $id_err = "Please enter the id";
@@ -22,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_err = "ID is required";
     }
 
-    // Validate link
     if (isset($_POST["link"])) {
         $input_link = trim($_POST["link"]);
         if (empty($input_link)) {
@@ -36,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $link_err = "Link is required";
     }
 
-    // Validate name
     if (isset($_POST["name"])) {
         $input_name = trim($_POST["name"]);
         if (empty($input_name)) {
@@ -50,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name_err = "Name is required";
     }
 
-    // Validate description
     if (isset($_POST["description"])) {
         $input_description = trim($_POST["description"]);
         if (empty($input_description)) {
@@ -62,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $description_err = "Description is required";
     }
 
-    // Validate price
     if (isset($_POST["price"])) {
         $input_price = trim($_POST["price"]);
         if (empty($input_price)) {
@@ -76,7 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $price_err = "Price is required";
     }
 
-    // Validate date added
     if (isset($_POST["added"])) {
         $input_added = trim($_POST["added"]);
         if (empty($input_added)) {
@@ -88,7 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $added_err = "Date added is required";
     }
 
-    // Validate updated date
     if (isset($_POST["updated"])) {
         $input_updated = trim($_POST["updated"]);
         if (empty($input_updated)) {
@@ -100,16 +90,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $updated_err = "Updated date is required";
     }
 
-    // Check input errors before inserting in database
     if (empty($id_err) && empty($link_err) && empty($name_err) && empty($description_err) && empty($price_err) && empty($added_err) && empty($updated_err)) {
-        // Prepare an insert statement
         $sql = "INSERT INTO products (product_id, product_thumbnail_link, product_name, product_description, product_retail_price, product_date_added, product_updated_date) VALUES (:id, :link, :name, :description, :price, :added, :updated)";
 
-        // Debugging: Echo the SQL query
         echo "SQL Query: $sql<br>";
 
         if ($stmt = $pdo->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":id", $id);
             $stmt->bindParam(":link", $link);
             $stmt->bindParam(":name", $name);
@@ -118,25 +104,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(":added", $added);
             $stmt->bindParam(":updated", $updated);
 
-            // Attempt to execute the prepared statement
             if ($stmt->execute()) {
-                // Records created successfully. Redirect to landing page
                 header("location: index.php");
                 exit();
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
-                // Additional error handling to get more insights
                 print_r($stmt->errorInfo());
             }
         } else {
             echo "Failed to prepare the SQL statement.";
         }
 
-        // Close statement
         unset($stmt);
     }
 
-    // Close connection
     unset($pdo);
 }
 ?>
