@@ -29,8 +29,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left">Employees Details</h2>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Employee</a>
+                        <h2 class="pull-left">Products Details</h2>
+                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New products</a>
                     </div>
                     <?php
                     // Include config file
@@ -43,24 +43,29 @@
                             echo '<table class="table table-bordered table-striped">';
                                 echo "<thead>";
                                     echo "<tr>";
-                                        echo "<th>#</th>";
+                                        echo "<th>id</th>";
+                                        echo "<th>Link</th>";
                                         echo "<th>Name</th>";
-                                        echo "<th>Address</th>";
-                                        echo "<th>Salary</th>";
-                                        echo "<th>Action</th>";
+                                        echo "<th>Description</th>";
+                                        echo "<th>Price</th>";
+                                        echo "<th>Date added</th>";
+                                        echo "<th>updated Date</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = $result->fetch()){
                                     echo "<tr>";
-                                        echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['name'] . "</td>";
-                                        echo "<td>" . $row['address'] . "</td>";
-                                        echo "<td>" . $row['salary'] . "</td>";
+                                        echo "<td>" . $row['product_id'] . "</td>";
+                                        echo "<td>" . $row['product_thumbnail_link'] . "</td>";
+                                        echo "<td>" . $row['product_name'] . "</td>";
+                                        echo "<td>" . $row['product_description'] . "</td>";
+                                        echo "<td>" . $row['product_retail_price'] . "</td>";
+                                        echo "<td>" . $row['product_date_added'] . "</td>";
+                                        echo "<td>" . $row['product_updated_date'] . "</td>";
                                         echo "<td>";
-                                            echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete.php?id='. $row['id'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                        echo '<a href="read.php?id='. $row['product_id'] .'" class="mr-3" title="View Record"><span class="fa fa-eye"></span></a>';
+                                        echo '<a href="update.php?id='. $row['product_id'] .'" class="mr-3" title="Update Record"><span class="fa fa-pencil"></span></a>';
+                                        echo '<a href="delete.php?id='. $row['product_id'] .'" title="Delete Record"><span class="fa fa-trash"></span></a>';                                        
                                         echo "</td>";
                                     echo "</tr>";
                                 }
