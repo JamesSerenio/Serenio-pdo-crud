@@ -5,6 +5,7 @@ $id_err = $link_err = $name_err = $description_err = $price_err = $added_err = $
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["id"])) {
+        
         $input_id = trim($_POST["id"]);
         if (empty($input_id)) {
             $id_err = "Please enter the id";
