@@ -5,7 +5,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     require_once "config.php";
     
     // Prepare a select statement
-    $sql = "SELECT * FROM employees WHERE id = :id";
+    $sql = "SELECT * FROM products WHERE product_id = :id"; // Changed 'id' to 'product_id'
     
     if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters
@@ -22,9 +22,9 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                 // Retrieve individual field value
-                $name = $row["name"];
-                $address = $row["address"];
-                $salary = $row["salary"];
+                $name = $row["product_name"]; // Changed 'name' to 'product_name'
+                $address = $row["product_description"]; // Changed 'address' to 'product_description'
+                $salary = $row["product_retail_price"]; // Changed 'salary' to 'product_retail_price'
             } else{
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -69,15 +69,15 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <h1 class="mt-5 mb-3">View Record</h1>
                     <div class="form-group">
                         <label>Name</label>
-                        <p><b><?php echo $row["name"]; ?></b></p>
+                        <p><b><?php echo $name; ?></b></p> 
                     </div>
                     <div class="form-group">
-                        <label>Address</label>
-                        <p><b><?php echo $row["address"]; ?></b></p>
+                        <label>Description</label>
+                        <p><b><?php echo $description; ?></b></p> 
                     </div>
                     <div class="form-group">
-                        <label>Salary</label>
-                        <p><b><?php echo $row["salary"]; ?></b></p>
+                        <label>Price</label>
+                        <p><b><?php echo $price; ?></b></p> 
                     </div>
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>
