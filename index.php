@@ -33,10 +33,8 @@
                         <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New products</a>
                     </div>
                     <?php
-                    // Include config file
                     require_once "config.php";
                     
-                    // Attempt select query execution
                     $sql = "SELECT * FROM products";
                     if($result = $pdo->query($sql)){
                         if($result->rowCount() > 0){
@@ -71,7 +69,6 @@
                                 }
                                 echo "</tbody>";                            
                             echo "</table>";
-                            // Free result set
                             unset($result);
                         } else{
                             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
@@ -80,7 +77,6 @@
                         echo "Oops! Something went wrong. Please try again later.";
                     }
                     
-                    // Close connection
                     unset($pdo);
                     ?>
                 </div>

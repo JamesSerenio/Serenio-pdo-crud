@@ -1,32 +1,19 @@
 <?php
-// Check existence of id parameter before processing further
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-    // Include config file
     require_once "config.php";
-    
-    // Prepare a select statement
-    $sql = "SELECT * FROM products WHERE product_id = :id"; // Changed 'id' to 'product_id'
-    
+    $sql = "SELECT * FROM products WHERE product_id = :id"; 
     if($stmt = $pdo->prepare($sql)){
-        // Bind variables to the prepared statement as parameters
         $stmt->bindParam(":id", $param_id);
-        
-        // Set parameters
         $param_id = trim($_GET["id"]);
-        
-        // Attempt to execute the prepared statement
         if($stmt->execute()){
             if($stmt->rowCount() == 1){
-                /* Fetch result row as an associative array. Since the result set
-                contains only one row, we don't need to use while loop */
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                // Retrieve individual field value
-                $name = $row["product_name"]; // Changed 'name' to 'product_name'
-                $address = $row["product_description"]; // Changed 'address' to 'product_description'
-                $salary = $row["product_retail_price"]; // Changed 'salary' to 'product_retail_price'
+              
+                $name = $row["product_name"]; 
+                $description = $row["product_description"]; 
+                $price = $row["product_retail_price"]; 
             } else{
-                // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
                 exit();
             }
@@ -36,13 +23,10 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         }
     }
      
-    // Close statement
     unset($stmt);
     
-    // Close connection
     unset($pdo);
-} else{
-    // URL doesn't contain id parameter. Redirect to error page
+} else{ 
     header("location: error.php");
     exit();
 }
