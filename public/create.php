@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+require_once "../db/config.php";
 $id = $link = $name = $description = $price = $added = $updated = "";
 $id_err = $link_err = $name_err = $description_err = $price_err = $added_err = $updated_err = "";
 

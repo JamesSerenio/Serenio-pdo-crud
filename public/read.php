@@ -1,6 +1,6 @@
 <?php
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-    require_once "config.php";
+    require_once "../db/config.php";
     $sql = "SELECT * FROM products WHERE product_id = :id"; 
     if($stmt = $pdo->prepare($sql)){
         $stmt->bindParam(":id", $param_id);
@@ -14,7 +14,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $description = $row["product_description"]; 
                 $price = $row["product_retail_price"]; 
             } else{
-                header("location: error.php");
+                header("location: public/error.php");
                 exit();
             }
             
@@ -27,7 +27,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     
     unset($pdo);
 } else{ 
-    header("location: error.php");
+    header("location: public/error.php");
     exit();
 }
 ?>
