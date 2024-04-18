@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+require_once "../db/config.php";
 $id = $link = $name = $description = $price = $added = $updated = "";
 $id_err = $link_err = $name_err = $description_err = $price_err = $added_err = $updated_err = "";
 
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(":updated", $updated);
 
             if ($stmt->execute()) {
-                header("location: index.php");
+                header("location: ../index.php");
                 exit();
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <span class="invalid-feedback"><?php echo $updated_err; ?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="../index.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
                 </div>
             </div>

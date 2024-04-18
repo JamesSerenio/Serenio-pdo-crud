@@ -30,10 +30,10 @@
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Products Details</h2>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New products</a>
+                        <a href="public/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New products</a>
                     </div>
                     <?php
-                    require_once "config.php";
+                    require_once "db/config.php";
                     
                     $sql = "SELECT * FROM products";
                     if($result = $pdo->query($sql)){
@@ -61,9 +61,9 @@
                                         echo "<td>" . $row['product_date_added'] . "</td>";
                                         echo "<td>" . $row['product_updated_date'] . "</td>";
                                         echo "<td>";
-                                        echo '<a href="read.php?id='. $row['product_id'] .'" class="mr-3" title="View Record"><span class="fa fa-eye"></span></a>';
-                                        echo '<a href="update.php?id='. $row['product_id'] .'" class="mr-3" title="Update Record"><span class="fa fa-pencil"></span></a>';
-                                        echo '<a href="delete.php?id='. $row['product_id'] .'" title="Delete Record"><span class="fa fa-trash"></span></a>';                                        
+                                        echo '<a href="public/read.php?id='. $row['product_id'] .'" class="mr-3" title="View Record"><span class="fa fa-eye"></span></a>';
+                                        echo '<a href="public/update.php?id='. $row['product_id'] .'" class="mr-3" title="Update Record"><span class="fa fa-pencil"></span></a>';
+                                        echo '<a href="public/delete.php?product_id=' . $row['product_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';                                       
                                         echo "</td>";
                                     echo "</tr>";
                                 }
