@@ -48,8 +48,6 @@ INSERT INTO `products` (`id`, `title`, `description`, `price`, `rrp`, `quantity`
 (3, 'Lechon', 'A traditional Filipino dish of roasted whole pig, resulting in crispy skin and tender meat.', 50, 60, 15, 'https://www.angsarap.net/wp-content/uploads/2019/03/Lechon-Kawali-2.jpg', '2024-05-12 00:00:00'),
 (4, 'Sinigang', 'A sour Filipino soup or stew characterized by its distinct sour taste, usually from tamarind, and includes a variety of vegetables and meat or seafood.', 22, 28, 40, 'https://www.kawalingpinoy.com/wp-content/uploads/2020/06/Sinigang-na-Baboy-2.jpg', '2024-05-12 00:00:00'),
 (5, 'Pancit', 'A Filipino noodle dish with Chinese origins, made with stir-fried noodles, vegetables, meat, and sometimes seafood, typically seasoned with soy sauce and citrus.', 25, 30, 30, 'https://www.kawalingpinoy.com/wp-content/uploads/2020/08/Pancit-Canton-2.jpg', '2024-05-12 00:00:00');
-
-
 -- --------------------------------------------------------
 
 --
