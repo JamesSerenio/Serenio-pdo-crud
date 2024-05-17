@@ -144,9 +144,7 @@
         }
 
         document.getElementById('buyButton').addEventListener('click', () => {
-            alert('Purchase successful!');
-            cart = {};
-            displayCart();
+            window.location.href = 'assets/address/address.php';
         });
     </script>
 
