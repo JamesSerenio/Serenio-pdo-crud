@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <h2>Thank You!</h2>
         <p>Your purchase was successful, and your address has been recorded.</p>
-        <a href="index.html" class="btn btn-primary">Back to Products</a>
+        <a href="index.php" class="btn btn-primary">Back to Products</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

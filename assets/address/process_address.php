@@ -35,7 +35,7 @@ try {
     $stmt->execute();
 
     // Redirect to a confirmation page or back to the product list
-    header("Location: assets/address/success.php");
+    header("Location: success.php");
     exit(); // Terminate script execution after redirection
 } catch(PDOException $e) {
     // Display error message
