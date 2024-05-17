@@ -80,7 +80,3 @@ INSERT INTO `addresses` (`id`, `user_id`, `street`, `city`, `state`, `postal_cod
 (2, 1, '5678 Second St', 'Quezon City', 'Metro Manila', '1100', 'Philippines', '2024-05-12 00:00:00');
 
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

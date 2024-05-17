@@ -5,10 +5,10 @@ $dbname = 'serenio';
 $username = 'root';
 $password = '';
 /*
-define('DB_SERVER', 'localhost');
-define('DB_NAME', 'u593341949_db_serenio');
-define('DB_USERNAME', 'u593341949_dev_serenio');
-define('DB_PASSWORD', '20212014Serenio');
+$host = 'localhost';
+$dbname = 'u593341949_db_serenio';
+$username = 'u593341949_dev_serenio';
+$password = '20212014Serenio';
 */
 try {   
  $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
