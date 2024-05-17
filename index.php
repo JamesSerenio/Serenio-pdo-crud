@@ -144,7 +144,7 @@
         }
 
         document.getElementById('buyButton').addEventListener('click', () => {
-            window.location.href = 'assets/address/address.php';
+            window.location.href = 'assets/address/payment.php';
         });
     </script>
 
