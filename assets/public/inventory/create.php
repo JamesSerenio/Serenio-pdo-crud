@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once $_SERVER['DOCUMENT_ROOT'] . "/serenio/db/config.php";
+require_once '../../db/config.php';
 
 // Define variables and initialize with empty values
 $title = $description = $price = $rrp = $quantity = $img = "";
