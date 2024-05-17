@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="assets/index.css">
-    <style>
-       
-    </style>
 </head>
 <body>
 
@@ -45,7 +42,33 @@
     </div>
     
     <!-- Cart Display Area -->
-    <div id="cartContainer"></div>
+    <div id="cartContainer">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">
+            View Cart
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Cart</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="cartModalBody">
+                    <!-- Cart items will be displayed here -->
+                </div>
+                <div class="modal-footer">
+                    <p class="mr-auto" id="totalPrice"></p>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="buyButton">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         fetch('./products/products-api.php')
@@ -61,7 +84,7 @@
                                 <p class="card-text">${product.description}</p>
                                 <p class="card-text">Price: ₱${product.rrp}</p>
                                 <p class="card-text">Quantity: ${product.quantity}</p>
-                                <button class="btn btn-add-to-cart" onclick="addToCart(${product.id})">
+                                <button class="btn btn-add-to-cart" onclick="addToCart(${product.id}, '${product.title}', ${product.rrp})">
                                     <i class="fas fa-cart-plus"></i> Add to Cart
                                 </button>
                             </div>
@@ -74,24 +97,62 @@
 
         let cart = {};
 
-        function addToCart(productId) {
+        function addToCart(productId, productName, productPrice) {
             if (cart[productId]) {
-                cart[productId]++;
+                cart[productId].quantity++;
             } else {
-                cart[productId] = 1;
+                cart[productId] = { name: productName, quantity: 1, price: productPrice };
             }
             displayCart();
         }
 
-        function displayCart() {
-            const cartContainer = document.getElementById('cartContainer');
-            let cartHTML = '<h3>Cart</h3>';
-            for (const [productId, quantity] of Object.entries(cart)) {
-                cartHTML += `<p>Product ID: ${productId}, Quantity: ${quantity}</p>`;
+        function removeFromCart(productId) {
+            if (cart[productId]) {
+                cart[productId].quantity--;
+                if (cart[productId].quantity <= 0) {
+                    delete cart[productId];
+                }
             }
-            cartContainer.innerHTML = cartHTML;
+            displayCart();
         }
+
+        function deleteFromCart(productId) {
+            delete cart[productId];
+            displayCart();
+        }
+
+        function displayCart() {
+            const cartModalBody = document.getElementById('cartModalBody');
+            const totalPriceElement = document.getElementById('totalPrice');
+            let cartHTML = '';
+            let totalPrice = 0;
+
+            for (const [productId, product] of Object.entries(cart)) {
+                const productTotal = product.quantity * product.price;
+                totalPrice += productTotal;
+                cartHTML += `
+                    <div>
+                        <p>Product Name: ${product.name}, Quantity: ${product.quantity}, Total: ₱${productTotal}</p>
+                        <button class="btn btn-danger btn-sm" onclick="removeFromCart(${productId})">-</button>
+                        <button class="btn btn-secondary btn-sm" onclick="deleteFromCart(${productId})">Remove</button>
+                    </div>
+                `;
+            }
+
+            cartModalBody.innerHTML = cartHTML;
+            totalPriceElement.innerHTML = `Total Price: ₱${totalPrice}`;
+        }
+
+        document.getElementById('buyButton').addEventListener('click', () => {
+            alert('Purchase successful!');
+            cart = {};
+            displayCart();
+        });
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
