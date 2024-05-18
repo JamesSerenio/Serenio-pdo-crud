@@ -32,11 +32,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 
 INSERT INTO `products` (`id`, `title`, `description`, `price`, `rrp`, `quantity`, `img`, `date_added`) VALUES
-(1, 'Halo-Halo', 'A popular Filipino dessert made with a mixture of shaved ice, sweetened fruits, beans, jellies, and topped with ice cream and leche flan.', 30, 35, 25, 'https://www.angsarap.net/wp-content/uploads/2019/04/Halo-Halo.jpg', '2024-05-12 00:00:00'),
-(2, 'Adobo', 'A Filipino dish consisting of meat (usually chicken or pork) marinated in soy sauce, vinegar, garlic, bay leaves, and black peppercorns then simmered until tender.', 18, 22, 35, 'https://www.kawalingpinoy.com/wp-content/uploads/2020/06/Adobo-3.jpg', '2024-05-12 00:00:00'),
-(3, 'Lechon', 'A traditional Filipino dish of roasted whole pig, resulting in crispy skin and tender meat.', 50, 60, 15, 'https://www.angsarap.net/wp-content/uploads/2019/03/Lechon-Kawali-2.jpg', '2024-05-12 00:00:00'),
-(4, 'Sinigang', 'A sour Filipino soup or stew characterized by its distinct sour taste, usually from tamarind, and includes a variety of vegetables and meat or seafood.', 22, 28, 40, 'https://www.kawalingpinoy.com/wp-content/uploads/2020/06/Sinigang-na-Baboy-2.jpg', '2024-05-12 00:00:00'),
-(5, 'Pancit', 'A Filipino noodle dish with Chinese origins, made with stir-fried noodles, vegetables, meat, and sometimes seafood, typically seasoned with soy sauce and citrus.', 25, 30, 30, 'https://www.kawalingpinoy.com/wp-content/uploads/2020/08/Pancit-Canton-2.jpg', '2024-05-12 00:00:00');
+(1, 'Halo-Halo', 'A popular Filipino dessert made with a mixture of shaved ice, sweetened fruits, beans, jellies, and topped with ice cream and leche flan.', 30, 35, 25, 'https://businessmirror.com.ph/wp-content/uploads/2024/03/chowking-photo1.jpg', '2024-05-12 00:00:00'),
+(2, 'Adobo', 'A Filipino dish consisting of meat (usually chicken or pork) marinated in soy sauce, vinegar, garlic, bay leaves, and black peppercorns then simmered until tender.', 18, 22, 35, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Adobo_DSCF4391.jpg/1280px-Adobo_DSCF4391.jpg', '2024-05-12 00:00:00'),
+(3, 'Lechon', 'A traditional Filipino dish of roasted whole pig, resulting in crispy skin and tender meat.', 50, 60, 15, 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Lechon_Kawali.jpg', '2024-05-12 00:00:00'),
+(4, 'Sinigang', 'A sour Filipino soup or stew characterized by its distinct sour taste, usually from tamarind, and includes a variety of vegetables and meat or seafood.', 22, 28, 40, 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Sinigang_na_Baboy_DSCF4234.jpg/1280px-Sinigang_na_Baboy_DSCF4234.jpg', '2024-05-12 00:00:00'),
+(5, 'Pancit', 'A Filipino noodle dish with Chinese origins, made with stir-fried noodles, vegetables, meat, and sometimes seafood, typically seasoned with soy sauce and citrus.', 25, 30, 30, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pancit_Ilonggo_Style_-_12110747826.jpg/1280px-Pancit_Ilonggo_Style_-_12110747826.jpg', '2024-05-12 00:00:00');
 
 -- --------------------------------------------------------
 -- Table structure for table `users`
