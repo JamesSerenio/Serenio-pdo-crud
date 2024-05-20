@@ -44,7 +44,7 @@ INSERT INTO `products` (`id`, `title`, `description`, `price`, `rrp`, `quantity`
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,  
   `password` varchar(255) NOT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
@@ -78,5 +78,21 @@ CREATE TABLE `addresses` (
 INSERT INTO `addresses` (`id`, `user_id`, `street`, `city`, `state`, `postal_code`, `country`, `created_at`) VALUES
 (1, 1, '1234 Main St', 'Makati', 'Metro Manila', '1230', 'Philippines', '2024-05-12 00:00:00'),
 (2, 1, '5678 Second St', 'Quezon City', 'Metro Manila', '1100', 'Philippines', '2024-05-12 00:00:00');
+
+-- --------------------------------------------------------
+-- Table structure for table `payment_methods`
+-- --------------------------------------------------------
+
+-- Table structure for table `payments`
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(255) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO payments (product_name, total_amount, payment_method) VALUES ('Halo-Halo', 30.00, 'GCash');
+
 
 COMMIT;

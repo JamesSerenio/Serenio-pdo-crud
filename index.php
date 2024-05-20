@@ -6,102 +6,102 @@
     <title>Products List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #ffffff;
+        }
+
+        .navbar-brand img {
+            margin-right: 5px;
+        }
+        #productsDisplay {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #6c757d;
+        }
+
+        .btn-add-to-cart {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: #218838;
+        }
+
+        #cartContainer {
+            position: fixed;
+            top: 4em;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            border-radius: 5px;
+            max-width: 300px;
+        }
+
+        #cartContainer h3 {
+            margin-bottom: 10px;
+        }
+
+        #cartContainer p {
+            margin: 5px 0;
+        }
+
+    </style>
 </head>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-}
-.navbar {
-    background-color: #343a40;
-}
-
-.navbar-brand, .navbar-nav .nav-link {
-    color: #ffffff;
-}
-
-.navbar-brand img {
-    margin-right: 5px;
-}
-#productsDisplay {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-}
-
-.card-img-top {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    height: 200px;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.card-text {
-    color: #6c757d;
-}
-
-.btn-add-to-cart {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-add-to-cart:hover {
-    background-color: #218838;
-}
-
-#cartContainer {
-    position: fixed;
-    top: 4em;
-    right: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    border-radius: 5px;
-    max-width: 300px;
-}
-
-#cartContainer h3 {
-    margin-bottom: 10px;
-}
-
-#cartContainer p {
-    margin: 5px 0;
-}
-
-</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
@@ -165,29 +165,28 @@ body {
 
     <script>
         fetch('./products/products-api.php')
-    .then(response => response.json())
-    .then(data => {
-        const productsContainer = document.getElementById('productsDisplay');
-        data.forEach(product => {
-            const cardHTML = `
-                <div class="card">
-                    <img class="card-img-top" src="${product.img}" alt="${product.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${product.title}</h5>
-                        <p class="card-text">${product.description}</p>
-                        <p class="card-text">Price: ₱${product.rrp}</p>
-                        <p class="card-text">Quantity: ${product.quantity}</p>
-                        <button class="btn btn-add-to-cart" onclick="addToCart(${product.id}, '${product.title}', ${product.rrp})">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-            `;
-            productsContainer.innerHTML += cardHTML;
-        });
-    })
-    .catch(error => console.error('Error:', error));
-
+            .then(response => response.json())
+            .then(data => {
+                const productsContainer = document.getElementById('productsDisplay');
+                data.forEach(product => {
+                    const cardHTML = `
+                        <div class="card">
+                            <img class="card-img-top" src="${product.img}" alt="${product.title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.title}</h5>
+                                <p class="card-text">${product.description}</p>
+                                <p class="card-text">Price: ₱${product.rrp}</p>
+                                <p class="card-text">Quantity: ${product.quantity}</p>
+                                <button class="btn btn-add-to-cart" onclick="addToCart(${product.id}, '${product.title}', ${product.rrp})">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productsContainer.innerHTML += cardHTML;
+                });
+            })
+            .catch(error => console.error('Error:', error));
 
         let cart = {};
 
@@ -238,13 +237,15 @@ body {
         }
 
         document.getElementById('buyButton').addEventListener('click', () => {
-            window.location.href = 'assets/address/payment.php';
+            const productId = Object.keys(cart)[0]; // Assuming there's only one product in the cart
+            const productName = cart[productId].name;
+            const productPrice = cart[productId].price;
+            const productQuantity = cart[productId].quantity;
+            window.location.href = `assets/address/payment.php?product_name=${productName}&amount=${productPrice * productQuantity}`;
         });
     </script>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>
