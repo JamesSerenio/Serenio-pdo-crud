@@ -9,6 +9,6 @@ $_SESSION = array();
 session_destroy();
  
 // Redirect to login page
-header("Location: /serenio/assets/index.php");
+header("Location: /Serenio-pdo-crud/assets/index.php");
 exit;
 ?>

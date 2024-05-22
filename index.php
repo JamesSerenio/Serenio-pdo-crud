@@ -22,8 +22,41 @@
             color: #ffffff;
         }
 
+        .navbar-dark .navbar-nav .nav-link:hover {
+             color: #bbbbbb;
+        }
+
+        .navbar-dark .form-control {
+             background-color: #ffffff;
+             color: #495057;
+             border-color: #ffffff;
+        }
+
+        .navbar-dark .form-control:focus {
+             background-color: #ffffff;
+             border-color: #ffffff;
+             box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+        }
+
+        .navbar-dark .btn-outline-light {
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .navbar-dark .btn-outline-light:hover {
+            color: #343a40;
+            background-color: #ffffff; 
+        }
+
+        .navbar-dark .btn-outline-light:focus {
+            color: #343a40; 
+            background-color: #ffffff;
+            border-color: #ffffff; 
+        }
+
         .navbar-brand img {
             margin-right: 5px;
+            border-radius: 50%;
         }
         #productsDisplay {
             display: grid;
@@ -35,7 +68,8 @@
 
         .card {
             background-color: #fff;
-            border-radius: 10px;
+            border: 1px solid #eee;
+            border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
@@ -46,9 +80,9 @@
         }
 
         .card-img-top {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            height: 200px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 250px;
             object-fit: cover;
         }
 
@@ -57,12 +91,13 @@
         }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
 
         .card-text {
-            color: #6c757d;
+            font-size: 1rem;
+            color: #555;
         }
 
         .btn-add-to-cart {
@@ -70,7 +105,7 @@
             color: #fff;
             border: none;
             border-radius: 5px;
-            padding: 8px 12px;
+            padding: 10px 15px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -99,37 +134,97 @@
         #cartContainer p {
             margin: 5px 0;
         }
+        #cartContainer .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        #cartContainer .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding: 1rem;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-header h5.modal-title {
+            font-size: 1.25rem;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 1rem;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .modal-footer .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+        }
+
+        .modal-footer .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
 
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-                Bootstrap
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-          
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="https://img.lovepik.com/element/45016/0567.png_860.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Serenio Online Restaurant
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <!-- Ito ang bahagi na burahin para alisin ang Home at Links -->
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Products" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
-    </nav>
-
+    </div>
+</nav>
     <div class="container">
         <div id="productsDisplay" class="card-grid"></div>
     </div>
