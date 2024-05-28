@@ -50,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <style>
-   /* Custom styles for modal */
 .modal-dialog {
     max-width: 600px;
     margin: 30px auto; /* Lulagay sa gitna ng screen */

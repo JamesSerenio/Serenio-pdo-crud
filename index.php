@@ -8,9 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body {
+       body {
+            background: url('https://wallpapertag.com/wallpaper/middle/3/5/d/268845-amazing-wood-background-2592x1728.jpg');
+            justify-content: center;
+            align-items: center;    
+            background-repeat: no-repeat;
+            background-size: cover;
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
         }
