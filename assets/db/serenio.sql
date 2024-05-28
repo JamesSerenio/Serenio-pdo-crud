@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2024 at 05:00 AM
+-- Generation Time: May 24, 2024 at 01:26 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -49,18 +49,25 @@ INSERT INTO `addresses` (`id`, `user_id`, `street`, `city`, `state`, `postal_cod
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payments`
---
-
 CREATE TABLE `payments` (
-  `id` int(11) NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `total_amount` decimal(10,2) NOT NULL,
-  `payment_method` varchar(50) NOT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `payment_id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  `product_name` VARCHAR(255) NOT NULL,
+  `amount` DECIMAL(10, 2) NOT NULL,
+  `payment_status` ENUM('Pending', 'Completed', 'Failed') NOT NULL DEFAULT 'Pending',
+  `payment_method` VARCHAR(50) NOT NULL,
+  `transaction_id` VARCHAR(100),
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX `user_id` (`user_id`),
+  CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
+-- Dumping data for table `payments`
+--
+
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+INSERT INTO `payments` (`user_id`, `product_name`, `amount`, `payment_status`, `payment_method`, `transaction_id`, `created_at`) VALUES
+(:user_id, :product_name, :amount, 'Pending', 'Stripe', NULL, NOW()); --------------------------------------------------------
 
 --
 -- Table structure for table `products`
@@ -86,7 +93,8 @@ INSERT INTO `products` (`id`, `title`, `description`, `price`, `rrp`, `quantity`
 (2, 'Adobo', 'A Filipino dish consisting of meat (usually chicken or pork) marinated in soy sauce, vinegar, garlic, bay leaves, and black peppercorns then simmered until tender.', 18, 22, 35, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Adobo_DSCF4391.jpg/1280px-Adobo_DSCF4391.jpg', '2024-05-12 00:00:00'),
 (3, 'Lechon', 'A traditional Filipino dish of roasted whole pig, resulting in crispy skin and tender meat.', 50, 60, 15, 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Lechon_Kawali.jpg', '2024-05-12 00:00:00'),
 (4, 'Sinigang', 'A sour Filipino soup or stew characterized by its distinct sour taste, usually from tamarind, and includes a variety of vegetables and meat or seafood.', 22, 28, 40, 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Sinigang_na_Baboy_DSCF4234.jpg/1280px-Sinigang_na_Baboy_DSCF4234.jpg', '2024-05-12 00:00:00'),
-(5, 'Pancit', 'A Filipino noodle dish with Chinese origins, made with stir-fried noodles, vegetables, meat, and sometimes seafood, typically seasoned with soy sauce and citrus.', 25, 30, 30, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pancit_Ilonggo_Style_-_12110747826.jpg/1280px-Pancit_Ilonggo_Style_-_12110747826.jpg', '2024-05-12 00:00:00');
+(5, 'Pancit', 'A Filipino noodle dish with Chinese origins, made with stir-fried noodles, vegetables, meat, and sometimes seafood, typically seasoned with soy sauce and citrus.', 25, 30, 30, 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pancit_Ilonggo_Style_-_12110747826.jpg/1280px-Pancit_Ilonggo_Style_-_12110747826.jpg', '2024-05-12 00:00:00'),
+(6, 'Kare-Kare', 'A traditional Filipino oxtail stew made with a thick savory peanut sauce.', 40, 45, 20, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Mac_MG_5939.jpg/375px-Mac_MG_5939.jpg', '2024-05-23 02:04:27');
 
 -- --------------------------------------------------------
 
@@ -107,7 +115,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 (1, 'admin', '$2y$10$kGp4g1TjBK4XwLIwRbBHSeZ4W5FpPbYoB1ap5NfFUjUPAcE3KR5QG', '2024-04-29 16:39:58'),
-(2, 'james', '$2y$10$.F5DcErv/20TPmZgEVeV.ujwm75sBF5jbyTEeC3KC7GrFgf7Bqr32', '2024-05-27 11:00:01');
+(2, 'james', '$2y$10$U7aTr39pIwhkVe6j1mqMQOZ.02NYY5B.pyHVQ8ntBKRms6P7Wh5Mq', '2024-05-22 08:32:41'),
+(3, 'james23', '$2y$10$RFtuExOBbVw5Kb88iXBB0erI4QyS27rSwpP2yxHAtU0XVMSdp1eeS', '2024-05-22 08:34:35');
 
 --
 -- Indexes for dumped tables
@@ -119,12 +128,6 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 ALTER TABLE `addresses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `payments`
---
-ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `products`
@@ -151,20 +154,16 @@ ALTER TABLE `addresses`
 --
 -- AUTO_INCREMENT for table `payments`
 --
-ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

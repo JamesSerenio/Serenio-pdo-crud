@@ -1,116 +1,152 @@
 <?php
-require_once('config.php');
-session_start();
+// Import ng iyong PDO configuration file kung mayroon.
+require_once 'config.php';
 
+// Tiyakin na ang form ay na-submit bago kunin ang mga input.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        $stmt = $pdo->prepare("INSERT INTO payments (user_id, product_name, amount, payment_status, payment_method, transaction_id, created_at) VALUES (:user_id, :product_name, :amount, 'Pending', 'Stripe', NULL, NOW())");
+    // Kunin ang mga input mula sa form.
+    $productName = $_POST['product_name'];
+    $totalAmount = $_POST['total_amount'];
+    $paymentMethod = $_POST['payment_method'];
 
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':product_name', $product_name);
-        $stmt->bindParam(':amount', $amount);
+    // Tiyakin na ang mga required fields ay hindi blanko.
+    if (!empty($productName) && !empty($totalAmount) && !empty($paymentMethod)) {
+        try {
+            // Ihanda ang SQL statement para sa pag-insert ng payment transaction.
+            $stmt = $pdo->prepare("INSERT INTO payments (product_name, total_amount, payment_method) VALUES (:product_name, :total_amount, :payment_method)");
 
-        $user_id = $_SESSION['user_id']; // Assuming you have a session variable for user ID
-        $product_name = $_POST['product_name'];
-        $amount = $_POST['amount'];
+            // Bind ng mga parameter.
+            $stmt->bindParam(':product_name', $productName);
+            $stmt->bindParam(':total_amount', $totalAmount);
+            $stmt->bindParam(':payment_method', $paymentMethod);
 
-        $stmt->execute();
+            // Execute ang query.
+            $stmt->execute();
 
-        header("Location: payment_confirmation.php");
-        exit();
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+            // I-output ang JavaScript para ipakita ang modal pagkatapos ng successful transaction.
+            echo '<script>';
+            echo 'document.addEventListener("DOMContentLoaded", function() {';
+            echo 'var myModal = new bootstrap.Modal(document.getElementById("successModal"));';
+            echo 'myModal.show();';
+            echo '});';
+            echo '</script>';
+        } catch (PDOException $e) {
+            // I-handle ang mga error sa database.
+            echo "Error: " . $e->getMessage();
+        }
+    } else {
+        // Maglabas ng error message kung ang mga required fields ay blanko.
+        echo "Error: Please fill out all required fields.";
     }
-} else {
-    $product_name = $_GET['product_name'];
-    $amount = $_GET['amount'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Import ng Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
+   /* Custom styles for modal */
+.modal-dialog {
+    max-width: 600px;
+    margin: 30px auto; /* Lulagay sa gitna ng screen */
+}
+
+/* Form styles */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+h2 {
             text-align: center;
-            margin-bottom: 30px;
-            color: #007bff;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-        }
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-    </style>
+</style>
 <body>
-    <div class="container">
-        <h1>Payment Form</h1>
-        <form action="payment.php" method="POST">
-            <div class="form-group">
-                <label for="product_name">Product Name</label>
-                <input type="text" class="form-control" id="product_name" name="product_name" value="<?php echo htmlspecialchars($product_name); ?>" readonly>
+    <h2>Payment Form</h2>
+    <form action="payment.php" method="post">
+        <label for="product_name">Product Name:</label><br>
+        <input type="text" id="product_name" name="product_name" required><br><br>
+        
+        <label for="total_amount">Total Amount:</label><br>
+        <input type="number" id="total_amount" name="total_amount" step="0.01" required><br><br>
+        
+        <label for="payment_method">Payment Method:</label><br>
+        <select id="payment_method" name="payment_method" required>
+            <option value="PayMaya">PayMaya</option>
+            <option value="PayPal">PayPal</option>
+            <option value="GCash">GCash</option>
+            <option value="Credit Card">Credit Card</option>
+        </select><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <!-- Modal para sa successful transaction -->
+    <div class="modal" id="successModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Transaction Successful!</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <p>Your payment transaction has been successfully recorded.</p>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="address.php" class="btn btn-primary">Proceed to Address</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="amount">Amount</label>
-                <input type="text" class="form-control" id="amount" name="amount" value="<?php echo htmlspecialchars($amount); ?>" readonly>
-            </div>
-            <div class="form-group">
-                <label for="payment_method">Payment Method</label>
-                <select class="form-control" id="payment_method" name="payment_method">
-                    <option value="GCash">GCash</option>
-                    <option value="PayMaya">PayMaya</option>
-                    <option value="PayPal">PayPal</option>
-                    <option value="Credit Card">Credit Card</option>
-                </select>
-            </div>
-            <a href="success.php" onclick="submitPaymentForm()" class="btn btn-primary">Submit Payment</a>
-        </form>
+        </div>
     </div>
+
+    <!-- Import ng Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function submitPaymentForm() {
-            document.querySelector("form").submit();
-        }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    // Kunin ang mga detalye ng produkto mula sa URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get('product_name');
+    const totalAmount = urlParams.get('amount'); // Baguhin mula sa 'total_amount' papunta sa 'amount'
+
+    // I-set ang mga detalye ng produkto sa mga field ng form
+    document.getElementById('product_name').value = productName || '';
+    document.getElementById('total_amount').value = totalAmount || '';
+</script>
+</script>
 </body>
 </html>
