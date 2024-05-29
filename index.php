@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-       body {
+        body {
             background: url('https://wallpapertag.com/wallpaper/middle/3/5/d/268845-amazing-wood-background-2592x1728.jpg');
             justify-content: center;
             align-items: center;    
@@ -71,7 +71,7 @@
         }
 
         .card {
-            background-color: #fff;
+            background-color: transparent;
             border: 1px solid #eee;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -97,11 +97,12 @@
         .card-title {
             font-size: 1.5rem;
             margin-bottom: 10px;
+            color: #ffffff;
         }
 
         .card-text {
             font-size: 1rem;
-            color: #555;
+            color: #ffffff;
         }
 
         .btn-add-to-cart {
@@ -116,6 +117,11 @@
 
         .btn-add-to-cart:hover {
             background-color: #218838;
+        }
+
+        .add-right {
+            float: right;
+            margin-left: 10px;
         }
 
         #cartContainer {
@@ -208,11 +214,12 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: transparent;">
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="https://img.lovepik.com/element/45016/0567.png_860.png" width="30" height="30" class="d-inline-block align-top" alt="">
-            Serenio Online Restaurant
+            <img src="https://img.lovepik.com/element/45016/0567.png_860.png" width="30" height="30" class="d-inline
+            -block align-top" alt="">
+            Jem'z Restaurant
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -223,21 +230,15 @@
                 <!-- Ito ang bahagi na burahin para alisin ang Home at Links -->
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search Products" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Products" aria-label="Search" style="background-color: transparent; border-color: #fff;">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
+
         </div>
     </div>
 </nav>
     <div class="container">
         <div id="productsDisplay" class="card-grid"></div>
-    </div>
-    
-    <!-- Cart Display Area -->
-    <div id="cartContainer">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cartModal">
-            View Cart
-        </button>
     </div>
 
     <!-- Modal -->
@@ -279,6 +280,9 @@
                                 <button class="btn btn-add-to-cart" onclick="addToCart(${product.id}, '${product.title}', ${product.rrp})">
                                     <i class="fas fa-cart-plus"></i> Add to Cart
                                 </button>
+                                <button class="btn btn-add-to-cart add-right" onclick="addUnliRice(${product.id}, '${product.title}', ${product.rrp})">
+                                    <i class="fas fa-cart-plus"></i> Add w/Rice/drinks
+                                </button>
                             </div>
                         </div>
                     `;
@@ -296,20 +300,35 @@
                 cart[productId] = { name: productName, quantity: 1, price: productPrice };
             }
             displayCart();
+            $('#cartModal').modal('show'); // Show the modal after adding to cart
+        }
+
+        function addUnliRice(productId, productName, productPrice) {
+            if (cart[productId]) {
+                cart[productId].name = productName + ' w/ Rice and Drinks';
+                cart[productId].price = productPrice + 15; // Add 15 to the price for the rice
+            } else {
+                cart[productId] = { name: productName + ' w/ Rice and Drinks', quantity: 1, price: productPrice + 15 };
+            }
+            displayCart();
+            $('#cartModal').modal('show'); // Show the modal after adding with rice
         }
 
         function removeFromCart(productId) {
             if (cart[productId]) {
-                cart[productId].quantity--;
-                if (cart[productId].quantity <= 0) {
+                if (cart[productId].quantity > 1) {
+                    cart[productId].quantity--;
+                } else {
                     delete cart[productId];
                 }
             }
             displayCart();
         }
 
-        function deleteFromCart(productId) {
-            delete cart[productId];
+        function increaseQuantity(productId) {
+            if (cart[productId]) {
+                cart[productId].quantity++;
+            }
             displayCart();
         }
 
@@ -326,17 +345,17 @@
                     <div>
                         <p>Product Name: ${product.name}, Quantity: ${product.quantity}, Total: ₱${productTotal}</p>
                         <button class="btn btn-danger btn-sm" onclick="removeFromCart(${productId})">-</button>
-                        <button class="btn btn-secondary btn-sm" onclick="deleteFromCart(${productId})">Remove</button>
+                        <button class="btn btn-secondary btn-sm" onclick="increaseQuantity(${productId})">+</button>
                     </div>
                 `;
             }
 
             cartModalBody.innerHTML = cartHTML;
             totalPriceElement.innerHTML = `Total Price: ₱${totalPrice}`;
-        }
+        }   
 
         document.getElementById('buyButton').addEventListener('click', () => {
-            const productId = Object.keys(cart)[0]; // Assuming there's only one product in the cart
+            const productId = Object.keys(cart)[0]; 
             const productName = cart[productId].name;
             const productPrice = cart[productId].price;
             const productQuantity = cart[productId].quantity;

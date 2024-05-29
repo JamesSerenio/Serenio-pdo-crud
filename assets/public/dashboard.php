@@ -1,14 +1,3 @@
-<?php
-// Initialize the session
-session_start();
- 
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: ../index.php");
-    exit;
-}
-?>
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +16,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         }
         table tr td:last-child{
             width: 120px;
+        }
+        .card{
+            display: none;
         }
     </style>
 </head>
@@ -55,7 +47,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </nav>
 <body>
 
-<div class="container-fluid" >
+<div class="container-fluid">
     <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
         <div class="card-header" href="products.php">Products Recorded</div>
         <div class="card-body">
@@ -91,5 +83,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.card').fadeIn(1000);
+    });
+</script>
+
 </body>
 </html>

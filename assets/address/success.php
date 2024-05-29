@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Success</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
   body {
     background: #f0f0f0;
@@ -35,6 +34,13 @@ ul.timeline .event {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
     padding: 16px;
     margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+ul.timeline .event.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 ul.timeline .event:before {
     display: block;
@@ -48,6 +54,10 @@ ul.timeline .event:before {
     background-color: white;
     box-shadow: 0 0 4px -1px rgba(0, 0, 0, 0.6);
     content: ' ';
+    transition: border-color 0.5s;
+}
+ul.timeline .event.show:before {
+    border-color: #28a745;
 }
 ul.timeline h3 {
     font-size: 1.5em;
@@ -91,12 +101,13 @@ ul.timeline .left-arrow:after {
     content: ' ';
 }
 </style>
+</head>
 <body>
 <div class="container mt-5">
-        <h2>Thank You!</h2>
-        <p>Your purchase was successful, and your address has been recorded.</p>
-        <a href="../../index.php" class="btn btn-primary">Back to Products</a>
-    </div>
+    <h2>Thank You!</h2>
+    <p>Your purchase was successful, and your address has been recorded.</p>
+    <a href="../../index.php" class="btn btn-primary">Back to Products</a>
+</div>
 
 <div class="container">
   <ul class="timeline">
@@ -110,27 +121,36 @@ ul.timeline .left-arrow:after {
       <div class="left-arrow"></div>
       <div class="time">9 April, 2020 <br> 11:37 AM <span class="glyphicon glyphicon-time"></span></div>
       <h3>Order Verified</h3>
-      <div class="description"><p>Your order has been successfully verified.
-</p></div>
+      <div class="description"><p>Your order has been successfully verified.</p></div>
     </li>
-     <li class="event">
+    <li class="event">
       <div class="left-arrow"></div>
       <div class="time">10 April, 2020 <br> 09:11 AM <span class="glyphicon glyphicon-time"></span></div>
       <h3>Order Handed over to Logistics Partner</h3>
-      <div class="description"><p>Your order has been packed and handed over to a Logistics Partner.
-</p></div>
-    </li>
-     <li class="event">
-      <div class="left-arrow"></div>
-      <div class="time">10 April, 2020 <br> 02:22 PM <span class="glyphicon glyphicon-time"></span></div>
-      <h3>Order Shipped</h3>
-      <div class="description"><p>Your order has been shipped using Myanmar Post. You can track this package using the OrderID at <a href="https://myanmarpost.com/"> https://myanmarpost.com</a>
-</p></div>
-    </li>
+      <div class="description"><p>Your order has been packed and handed over to a Logistics Partner
+      .<p>.</p></div>
+</li>
+<li class="event">
+<div class="left-arrow"></div>
+<div class="time">10 April, 2020 <br> 02:22 PM <span class="glyphicon glyphicon-time"></span></div>
+<h3>Order Shipped</h3>
+<div class="description"><p>Your order has been shipped using Myanmar Post. You can track this package using the OrderID at <a href="https://myanmarpost.com/"> https://myanmarpost.com</a></p></div>
+</li>
+
   </ul>
 </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const events = document.querySelectorAll('.event');
+    events.forEach((event, index) => {
+        setTimeout(() => {
+            event.classList.add('show');
+        }, index * 500); // Delay each event by 500ms
+    });
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -50,6 +50,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <style>
+    body {
+            background: url('https://i.pinimg.com/originals/f8/c4/22/f8c422a0a0e6793b3f9113d419c5143a.gif');
+            justify-content: center;
+            align-items: center;    
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 .modal-dialog {
     max-width: 600px;
     margin: 30px auto; /* Lulagay sa gitna ng screen */
@@ -59,6 +69,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 form {
     max-width: 500px;
     margin: 0 auto;
+    background: transparent;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
 }
 
 label {
@@ -88,9 +103,27 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #0056b3;
 }
+
 h2 {
-            text-align: center;
-        }
+    text-align: center;
+    margin-bottom: 20px;
+}
+input[type="text"],
+input[type="number"],
+select {
+    /* Existing styles... */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+input[type="text"].show,
+input[type="number"].show,
+select.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 </style>
 <body>
     <h2>Payment Form</h2>
@@ -146,6 +179,17 @@ h2 {
     document.getElementById('product_name').value = productName || '';
     document.getElementById('total_amount').value = totalAmount || '';
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const formElements = document.querySelectorAll('input[type="text"], input[type="number"], select');
+
+    formElements.forEach((element, index) => {
+        setTimeout(() => {
+            element.classList.add('show');
+        }, index * 100); // Ang index * 100 ay magpapahirap ng pagpasok sa bawat elemento ng form ng paunti-unti, pag-angat nila nang hindi sabay-sabay.
+    });
+});
+
 </script>
 </body>
 </html>

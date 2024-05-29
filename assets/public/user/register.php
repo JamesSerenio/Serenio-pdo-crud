@@ -102,7 +102,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body{ font: 14px sans-serif; }
-        .wrapper{ width: 360px; padding: 20px; }
+        .wrapper{ width: 360px; padding: 20px; margin: 0 auto; text-align: center; }
+        .form-group {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .form-group.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -162,6 +171,16 @@ $(document).ready(function(){
     $('#successModal').modal('show');
 });
 <?php endif; ?>
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formGroups = document.querySelectorAll('.form-group');
+        formGroups.forEach((group, index) => {
+            setTimeout(() => {
+                group.classList.add('show');
+            }, index * 500); // Delay each group by 500ms
+        });
+    });
 </script>
 </body>
 </html>
