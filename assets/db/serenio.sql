@@ -49,25 +49,18 @@ INSERT INTO `addresses` (`id`, `user_id`, `street`, `city`, `state`, `postal_cod
 -- --------------------------------------------------------
 
 --
-CREATE TABLE `payments` (
-  `payment_id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT NOT NULL,
-  `product_name` VARCHAR(255) NOT NULL,
-  `amount` DECIMAL(10, 2) NOT NULL,
-  `payment_status` ENUM('Pending', 'Completed', 'Failed') NOT NULL DEFAULT 'Pending',
-  `payment_method` VARCHAR(50) NOT NULL,
-  `transaction_id` VARCHAR(100),
-  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  INDEX `user_id` (`user_id`),
-  CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Dumping data for table `payments`
+-- Table structure for table `payments`
 --
 
-/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
-INSERT INTO `payments` (`user_id`, `product_name`, `amount`, `payment_status`, `payment_method`, `transaction_id`, `created_at`) VALUES
-(:user_id, :product_name, :amount, 'Pending', 'Stripe', NULL, NOW()); --------------------------------------------------------
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `products`
@@ -130,6 +123,12 @@ ALTER TABLE `addresses`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -153,6 +152,10 @@ ALTER TABLE `addresses`
 
 --
 -- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `products`
 --
